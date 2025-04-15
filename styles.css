@@ -1,0 +1,269 @@
+body {
+    font-family: 'Annie Use Your Telescope', cursive;
+    background-color: #e0f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ffeb3b, #ffb300);
+    animation: bubbleBackground 10s infinite ease-in-out;
+    z-index: -1;
+}
+
+body.dark-mode {
+    background-color: #263238;
+}
+
+body.dark-mode::before {
+    background: linear-gradient(45deg, #37474f, #455a64);
+}
+
+@keyframes bubbleBackground {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.container {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+body.dark-mode .container {
+    background: rgba(66, 66, 66, 0.8);
+}
+
+h1 {
+    color: #d81b60;
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+body.dark-mode h1 {
+    color: #f06292;
+}
+
+.theme-toggle {
+    margin-bottom: 20px;
+}
+
+.theme-toggle button {
+    padding: 10px 20px;
+    background-color: #ffca28;
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+body.dark-mode .theme-toggle button {
+    background-color: #ffee58;
+    color: #212121;
+}
+
+.theme-toggle button:hover {
+    transform: scale(1.05);
+}
+
+.category-filter {
+    margin-bottom: 20px;
+}
+
+.category-filter label {
+    font-size: 1.5em;
+    margin-right: 10px;
+    color: #333;
+}
+
+body.dark-mode .category-filter label {
+    color: #e0e0e0;
+}
+
+.category-filter select {
+    padding: 8px;
+    font-size: 1.3em;
+    border-radius: 10px;
+    border: 2px solid #ff9800;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+body.dark-mode .category-filter select {
+    background-color: #424242;
+    color: #e0e0e0;
+    border-color: #ffca28;
+}
+
+.category-filter select:focus {
+    outline: none;
+    border-color: #f06292;
+}
+
+.guide {
+    background-color: #b2ebf2;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.dark-mode .guide {
+    background-color: #546e7a;
+}
+
+.character-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: none;
+}
+
+.guide p {
+    margin: 0;
+    font-size: 1.4em;
+    color: #333;
+}
+
+body.dark-mode .guide p {
+    color: #e0e0e0;
+}
+
+.flashcard {
+    perspective: 1000px;
+    width: 350px;
+    height: 220px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flashcard.flipped .card-inner {
+    transform: rotateY(180deg);
+    animation: bounce 0.5s ease-in-out;
+}
+
+@keyframes bounce {
+    0% { transform: rotateY(180deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.1); }
+    100% { transform: rotateY(180deg) scale(1); }
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #ff5722;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-front {
+    background-color: #80deea;
+}
+
+body.dark-mode .card-front {
+    background-color: #4dd0e1;
+}
+
+.card-back {
+    background-color: #ffcc80;
+    transform: rotateY(180deg);
+}
+
+body.dark-mode .card-back {
+    background-color: #ffca28;
+}
+
+h2 {
+    margin: 0;
+    padding: 15px;
+    font-size: 1.4em;
+    color: #333;
+    overflow-wrap: break-word;
+}
+
+body.dark-mode h2 {
+    color: #212121;
+}
+
+.progress-tracker {
+    margin-top: 15px;
+    font-size: 1.3em;
+    color: #d81b60;
+}
+
+body.dark-mode .progress-tracker {
+    color: #f06292;
+}
+
+.navigation {
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 0 10px;
+    background-color: #f06292;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.3em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+body.dark-mode button {
+    background-color: #ec407a;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.5);
+}
+
+#confetti-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
