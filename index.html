@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolt & Chatty Flashcards</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Bolt & Chatty's Flashcard Fun!</h1>
+        <div class="theme-toggle">
+            <button onclick="toggleTheme()" aria-label="Toggle dark mode">Toggle Theme</button>
+        </div>
+        <div class="category-filter">
+            <label for="category">Choose a category: </label>
+            <select id="category" onchange="filterCards()" aria-label="Select a riddle category">
+                <option value="all">All</option>
+                <option value="math">Math Riddles</option>
+                <option value="general">General Riddles</option>
+                <option value="kids">Riddles for Kids</option>
+                <option value="adults">Riddles for Adults</option>
+                <option value="language">Language Riddles</option>
+                <option value="animals">Animal Riddles</option>
+                <!-- <option value="original">Original Cards</option> -->
+            </select>
+        </div>
+        <div class="guide" role="region" aria-live="polite">
+            <img id="bolt-image" class="character-image" src="https://via.placeholder.com/50?text=Bolt" alt="Bolt the Dog">
+            <img id="chatty-image" class="character-image" src="https://via.placeholder.com/50?text=Chatty" alt="Chatty the Bird">
+            <p id="guide-text">Bolt: Let’s solve a fun animal riddle! Click the card to flip.</p>
+        </div>
+        <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Click to flip the flashcard" aria-describedby="guide-text">
+            <div class="card-inner">
+                <div class="card-front">
+                    <h2 id="card-question">Loading...</h2>
+                </div>
+                <div class="card-back">
+                    <h2 id="card-answer">Loading...</h2>
+                </div>
+            </div>
+        </div>
+        <div class="progress-tracker" role="status" aria-live="polite">
+            <p id="progress-text">Card 1 of 139</p>
+        </div>
+        <div class="navigation">
+            <button onclick="prevCard()" aria-label="Go to previous card">Previous</button>
+            <button onclick="nextCard()" aria-label="Go to next card">Next</button>
+            <button onclick="shuffleCards()" aria-label="Shuffle cards">Shuffle</button>
+        </div>
+    </div>
+    <!-- Audio elements for sound effects -->
+    <!-- <audio id="bolt-sound" src="https://freesound.org/data/previews/316/316909_4932093-lq.mp3"></audio> -->
+    <!-- <audio id="chatty-sound" src="https://freesound.org/data/previews/145/145614_2605319-lq.mp3"></audio> -->
+    <audio id="bolt-sound" src="/assets/win-sound.mp3"></audio>
+    <audio id="chatty-sound" src="/assets/win-sound.mp3"></audio>
+    <!-- Confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
