@@ -293,7 +293,7 @@ function hideSpinner() {
 
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/riddles-and-jokes-flashcards/sw.js')
         .then(registration => {
             console.log('Service Worker registered with scope:', registration.scope);
         })
