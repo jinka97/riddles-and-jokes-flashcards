@@ -4,10 +4,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -38,12 +38,14 @@ body.dark-mode::before {
 
 .container {
     text-align: center;
+    width: 90%;
     max-width: 600px;
     padding: 20px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s;
+    margin: 20px 0;
 }
 
 body.dark-mode .container {
@@ -83,6 +85,11 @@ body.dark-mode .theme-toggle button {
 
 .theme-toggle button:hover {
     transform: scale(1.05);
+    background-color: #ffb300;
+}
+
+body.dark-mode .theme-toggle button:hover {
+    background-color: #ffca28;
 }
 
 .category-filter {
@@ -137,7 +144,6 @@ body.dark-mode .guide {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    display: none;
 }
 
 .guide p {
@@ -152,10 +158,12 @@ body.dark-mode .guide p {
 
 .flashcard {
     perspective: 1000px;
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     height: 220px;
     margin: 0 auto;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card-inner {
@@ -229,13 +237,68 @@ body.dark-mode .progress-tracker {
     color: #f06292;
 }
 
+.score-tracker {
+    margin-top: 15px;
+    font-size: 1.3em;
+    color: #d81b60;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+body.dark-mode .score-tracker {
+    color: #f06292;
+}
+
+.score-tracker button {
+    padding: 8px 15px;
+    font-size: 1.1em;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.score-tracker button.correct {
+    background-color: #4caf50;
+}
+
+.score-tracker button.incorrect {
+    background-color: #f44336;
+}
+
+body.dark-mode .score-tracker button.correct {
+    background-color: #66bb6a;
+}
+
+body.dark-mode .score-tracker button.incorrect {
+    background-color: #ef5350;
+}
+
+.score-tracker button.correct:hover {
+    background-color: #388e3c;
+}
+
+.score-tracker button.incorrect:hover {
+    background-color: #d32f2f;
+}
+
+body.dark-mode .score-tracker button.correct:hover {
+    background-color: #4caf50;
+}
+
+body.dark-mode .score-tracker button.incorrect:hover {
+    background-color: #f44336;
+}
+
 .navigation {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 button {
     padding: 12px 25px;
-    margin: 0 10px;
     background-color: #f06292;
     color: white;
     border: none;
@@ -243,7 +306,7 @@ button {
     cursor: pointer;
     font-size: 1.3em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.3s;
 }
 
 body.dark-mode button {
@@ -252,18 +315,149 @@ body.dark-mode button {
 
 button:hover {
     transform: scale(1.05);
+    background-color: #ec407a;
 }
 
-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.5);
+body.dark-mode button:hover {
+    background-color: #f06292;
 }
 
-#confetti-canvas {
-    position: absolute;
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus, select:focus {
+    outline: 3px solid #f06292;
+    outline-offset: 2px;
+}
+
+body.dark-mode button:focus, body.dark-mode select:focus {
+    outline-color: #ff80ab; /* Higher contrast for dark mode */
+}
+
+.flashcard:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .flashcard:hover {
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.loading {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    background: #e0f7fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+body.dark-mode .loading {
+    background: #263238;
+}
+
+.spinner {
+    border: 8px solid #b0bec5;
+    border-top: 8px solid #d81b60;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+body.dark-mode .spinner {
+    border: 8px solid #455a64;
+    border-top: 8px solid #f06292;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading p {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #d81b60;
+}
+
+body.dark-mode .loading p {
+    color: #f06292;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+    text-align: center;
+}
+
+body.dark-mode footer {
+    color: #b0bec5;
+}
+
+footer a {
+    color: #d81b60;
+    text-decoration: none;
+}
+
+body.dark-mode footer a {
+    color: #f06292;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .flashcard {
+        max-width: 300px;
+        height: 180px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1.1em;
+    }
+
+    .score-tracker button {
+        padding: 6px 12px;
+        font-size: 1em;
+    }
+
+    .category-filter label {
+        font-size: 1.2em;
+    }
+
+    .category-filter select {
+        font-size: 1.1em;
+    }
+
+    .guide p {
+        font-size: 1.2em;
+    }
+
+    .character-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .progress-tracker, .score-tracker {
+        font-size: 1.1em;
+    }
 }

@@ -7,17 +7,47 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
+    <!-- SEO Metadata -->
+    <meta name="description" content="Learn and have fun with Bolt & Chatty's Flashcard app! Solve 139 riddles across categories like math, language, and animals. Perfect for kids and adults.">
+    <meta name="keywords" content="flashcards, riddles, educational games, Bolt and Chatty, kids learning, math riddles, language riddles">
+    <meta name="author" content="Your Name">
+
+    <!-- Open Graph Tags for Social Sharing -->
+    <meta property="og:title" content="Bolt & Chatty Flashcards">
+    <meta property="og:description" content="A fun and educational flashcard app with 139 riddles for kids and adults.">
+    <meta property="og:image" content="https://boltchattyflashcards.com/assets/bolt-chatty.png">
+    <meta property="og:url" content="https://boltchattyflashcards.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bolt & Chatty Flashcards">
+    <meta name="twitter:description" content="A fun and educational flashcard app with 139 riddles for kids and adults.">
+    <meta name="twitter:image" content="https://boltchattyflashcards.com/assets/bolt-chatty.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d81b60">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P25DGGT6J6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-P25DGGT6J6');
     </script>
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading Bolt & Chatty's Flashcard Fun...</p>
+    </div>
+
     <div class="container">
         <h1>Bolt & Chatty's Flashcard Fun!</h1>
         <div class="theme-toggle">
@@ -33,12 +63,12 @@
                 <option value="adults">Riddles for Adults</option>
                 <option value="language">Language Riddles</option>
                 <option value="animals">Animal Riddles</option>
-                <!-- <option value="original">Original Cards</option> -->
+                <option value="original">Original Cards</option>
             </select>
         </div>
         <div class="guide" role="region" aria-live="polite">
-            <img id="bolt-image" class="character-image" src="https://via.placeholder.com/50?text=Bolt" alt="Bolt the Dog">
-            <img id="chatty-image" class="character-image" src="https://via.placeholder.com/50?text=Chatty" alt="Chatty the Bird">
+            <img id="bolt-image" class="character-image" src="assets/bolt.png" alt="Bolt the Dog">
+            <img id="chatty-image" class="character-image" src="assets/chatty.png" alt="Chatty the Bird">
             <p id="guide-text">Bolt: Let’s solve a fun animal riddle! Click the card to flip.</p>
         </div>
         <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Click to flip the flashcard" aria-describedby="guide-text">
@@ -54,20 +84,38 @@
         <div class="progress-tracker" role="status" aria-live="polite">
             <p id="progress-text">Card 1 of 139</p>
         </div>
+        <div class="score-tracker" role="status" aria-live="polite">
+            <p id="score-text">Score: 0</p>
+            <button onclick="markCorrect()" aria-label="Mark answer as correct">Correct</button>
+            <button onclick="markIncorrect()" aria-label="Mark answer as incorrect">Incorrect</button>
+        </div>
         <div class="navigation">
             <button onclick="prevCard()" aria-label="Go to previous card">Previous</button>
             <button onclick="nextCard()" aria-label="Go to next card">Next</button>
             <button onclick="shuffleCards()" aria-label="Shuffle cards">Shuffle</button>
+            <button onclick="resetProgress()" aria-label="Reset progress">Reset Progress</button>
         </div>
+
+        <!-- Privacy Notice -->
+        <footer style="margin-top: 20px; font-size: 0.9em; color: #666;">
+            <p>We use Google Analytics to track usage and improve the app. By using this site, you consent to our <a href="privacy.html">Privacy Policy</a>.</p>
+        </footer>
     </div>
+
     <!-- Audio elements for sound effects -->
-    <!-- <audio id="bolt-sound" src="https://freesound.org/data/previews/316/316909_4932093-lq.mp3"></audio> -->
-    <!-- <audio id="chatty-sound" src="https://freesound.org/data/previews/145/145614_2605319-lq.mp3"></audio> -->
-    <audio id="bolt-sound" src="/assets/win-sound.mp3"></audio>
-    <audio id="chatty-sound" src="/assets/win-sound.mp3"></audio>
+    <audio id="bolt-sound" src="assets/bolt-sound.mp3"></audio>
+    <audio id="chatty-sound" src="assets/chatty-sound.mp3"></audio>
+
+    
     <!-- Confetti library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="flashcards.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
+
+
+
+
 
