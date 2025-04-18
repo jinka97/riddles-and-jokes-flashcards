@@ -18,10 +18,10 @@ export const ui = {
         }
     },
     toggleTheme: () => {
-        // audio.playSound('click'); // Sound handled in event listener calling this
+        // audio.playSound('click'); // Sound handled in event listener
         state.currentTheme = state.currentTheme === 'light' ? 'dark' : 'light';
         ui.applyTheme();
-        storage.saveTheme(); // Assumes storage is imported/available if needed here, or handled in main
+        storage.saveTheme(); // Assumes storage is imported/available
     },
     updateScoreDisplay: () => {
         if(dom.scoreDisplay) dom.scoreDisplay.textContent = `Score: ${state.score.correct}`;
@@ -67,44 +67,48 @@ export const ui = {
              dom.favoriteButton.setAttribute('aria-pressed', isFav);
              dom.difficultButton.classList.toggle('active', isDiff);
              dom.difficultButton.setAttribute('aria-pressed', isDiff);
-        } else {
-             // console.warn("Could not update Fav/Diff buttons, elements or cardId missing.");
         }
     },
     updateCardDisplay: () => {
-        // console.log(`[UI] Displaying card index: ${state.currentCardIndex}`);
-        if (!dom.flashcard) { console.error("Flashcard element not found!"); return; }
+        console.log(`[UI] updateCardDisplay START. Index: ${state.currentCardIndex}`); // *** DEBUG LOG ***
+        if (!dom.flashcard) { console.error("[UI] Flashcard element not found!"); return; }
 
         dom.flashcard.classList.remove('correct-answer', 'incorrect-answer', 'is-flipped', 'animate-in');
-        void dom.flashcard.offsetWidth; // Trigger reflow for animation
+        void dom.flashcard.offsetWidth;
         dom.flashcard.classList.add('animate-in');
         state.currentCardHasBeenFlipped = false;
-        ui.showFeedbackIcon(''); // Clear feedback icons
+        ui.showFeedbackIcon('');
 
         if (state.currentCardIndex < state.shuffledDeck.length && state.currentCardIndex >= 0) {
             const cardData = state.shuffledDeck[state.currentCardIndex];
-            const cardId = cardData.id;
-            if (!cardId) { console.error("Card data missing ID!", cardData); return; }
+            const cardId = cardData?.id;
+            if (!cardId) { console.error("[UI] Card data missing ID!", cardData); return; }
+            console.log(`[UI] Rendering Card ID: ${cardId}, Question: ${cardData.question.substring(0,20)}...`); // *** DEBUG LOG ***
 
+            // Update Text Content
+            console.log("[UI] Updating text content..."); // *** DEBUG LOG ***
             dom.questionText.textContent = cardData.question;
             dom.answerText.textContent = cardData.answer;
             dom.flashcard.setAttribute('aria-label', `Flashcard front showing question: ${cardData.question}. Press space or enter to flip.`);
 
+            // Update Guide
+            console.log("[UI] Updating guide..."); // *** DEBUG LOG ***
             dom.guideTextDisplay.textContent = cardData.guide || '';
             if (cardData.guide?.toLowerCase().startsWith('bolt:')) dom.guideAvatar.src = config.ASSET_PATHS.bolt;
             else if (cardData.guide?.toLowerCase().startsWith('chatty:')) dom.guideAvatar.src = config.ASSET_PATHS.chatty;
             else dom.guideAvatar.src = config.ASSET_PATHS.defaultAvatar;
 
+            // Update Progress & Buttons
+            console.log("[UI] Updating progress and buttons..."); // *** DEBUG LOG ***
             ui.updateProgressDisplay();
             ui.updateFavDiffButtons(cardId);
 
-            // Reset button states
             dom.correctButton.disabled = true;
             dom.incorrectButton.disabled = true;
             dom.prevCardButton.disabled = state.currentCardIndex === 0;
             dom.nextCardButton.disabled = state.currentCardIndex >= state.shuffledDeck.length - 1;
 
-            // Ensure visibility of game elements
+            // Ensure visibility
             ui.toggleElementVisibility(dom.guideMessageArea, true);
             ui.toggleElementVisibility(dom.flashcard.parentElement, true);
             ui.toggleElementVisibility(dom.progressDisplay, true);
@@ -113,9 +117,10 @@ export const ui = {
             ui.toggleElementVisibility(dom.cardActionsDiv, true);
             ui.toggleElementVisibility(dom.prevCardButton, true);
             ui.toggleElementVisibility(dom.nextCardButton, true);
+            console.log(`[UI] updateCardDisplay END. Index: ${state.currentCardIndex}`); // *** DEBUG LOG ***
 
         } else {
-            console.error("Index out of bounds in ui.updateCardDisplay:", state.currentCardIndex);
+            console.error("[UI] Index out of bounds in updateCardDisplay:", state.currentCardIndex);
             ui.showEndMessage();
         }
     },
@@ -207,11 +212,31 @@ export const ui = {
         ui.toggleElementVisibility(dom.timerDisplay, false);
     },
     updateSubscriptionUI: () => {
-         if (state.isSubscribed && dom.subscribeButton) {
-            dom.subscribeButton.textContent = 'Premium Unlocked!';
-            dom.subscribeButton.disabled = true;
+         const openSubButton = document.getElementById('open-subscribe-modal-button');
+         const freemiumPrompt = document.getElementById('freemium-prompt');
+         if (state.isSubscribed) {
+            ui.toggleElementVisibility(freemiumPrompt, false); // Hide prompt if subscribed
+        } else if (freemiumPrompt) {
+             ui.toggleElementVisibility(freemiumPrompt, true); // Show if not subscribed
+             if(openSubButton) openSubButton.disabled = false; // Ensure button is enabled
         }
         ui.populateCategories(); // Repopulate categories
+    },
+    openSubscriptionModal: () => {
+        const modal = dom.modalOverlay; // Use cached element
+        if (modal) {
+            ui.toggleElementVisibility(modal, true);
+            modal.querySelector('button')?.focus(); // Focus first button in modal
+        }
+    },
+    closeSubscriptionModal: () => {
+         const modal = dom.modalOverlay; // Use cached element
+         if (modal) {
+            ui.toggleElementVisibility(modal, false);
+         }
     }
 };
+
+// Need to import storage for saveTheme
+import { storage } from './storage.js';
 

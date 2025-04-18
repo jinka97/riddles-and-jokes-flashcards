@@ -139,6 +139,8 @@ export function recordScore(isCorrect) {
 
 export function flipCard() {
     if (!dom.flashcard) return;
+    // *** ADDED LOG ***
+    console.log(`[Game] flipCard called. Card Index: ${state.currentCardIndex}. Current classList: ${dom.flashcard.className}`);
     dom.flashcard.classList.toggle('is-flipped');
     audio.playSound('flip');
     // Ensure deck and index are valid before accessing cardData
@@ -149,7 +151,7 @@ export function flipCard() {
     if (dom.flashcard.classList.contains('is-flipped')) {
         dom.flashcard.setAttribute('aria-label', `Flashcard back showing answer: ${cardData.answer}.`);
         if (!state.currentCardHasBeenFlipped) {
-            console.log("[Game] First flip, enabling score buttons.");
+            console.log("[Game] First flip on this card, enabling score buttons."); // Clarified log
             if(dom.correctButton) dom.correctButton.disabled = false;
             if(dom.incorrectButton) dom.incorrectButton.disabled = false;
             state.currentCardHasBeenFlipped = true;
@@ -157,6 +159,9 @@ export function flipCard() {
     } else {
          dom.flashcard.setAttribute('aria-label', `Flashcard front showing question: ${cardData.question}. Press space or enter to flip.`);
          ui.showFeedbackIcon('');
+         // Optional: Disable score buttons when flipping back to front?
+         // if(dom.correctButton) dom.correctButton.disabled = true;
+         // if(dom.incorrectButton) dom.incorrectButton.disabled = true;
     }
 }
 
@@ -268,7 +273,6 @@ export function toggleDifficult() {
     alert('Premium content unlocked! Premium categories and cards are now available.');
     ui.updateSubscriptionUI();
     // Attempt to call handleSelectionChange if events is available
-    // This dependency indicates potential need for better cross-module communication (e.g., custom events)
     if (typeof events !== 'undefined' && events.handleSelectionChange) {
          events.handleSelectionChange();
     } else {
@@ -281,6 +285,4 @@ export function toggleDifficult() {
          }
     }
 }
-
-// *** NO REDUNDANT EXPORT HERE ***
 
