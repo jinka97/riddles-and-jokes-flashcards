@@ -14,20 +14,37 @@ import { events } from './events.js';
  * Registers the service worker.
  */
 function registerServiceWorker() {
-    // Check if service workers are supported by the browser
     if ('serviceWorker' in navigator) {
-        // Register sw.js file located at the root of the site
-        navigator.serviceWorker.register('/sw.js') // Path relative to origin
+        // Use relative path for registration - more robust for GitHub Pages subdirectories
+        navigator.serviceWorker.register('sw.js') // CHANGED FROM '/sw.js'
             .then((registration) => {
-                // Registration was successful
-                console.log('[Main] Service Worker registered with scope:', registration.scope);
+                console.log('[Main] Service Worker registered successfully with scope:', registration.scope);
+                // Optional: Listen for updates
+                registration.onupdatefound = () => {
+                    const installingWorker = registration.installing;
+                    if (installingWorker) {
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    // New content is available; please refresh.
+                                    console.log('[Main] New content is available and will be used when all tabs for this page are closed.');
+                                    // Optionally, prompt the user to refresh
+                                } else {
+                                    // Content is cached for offline use.
+                                    console.log('[Main] Content is cached for offline use.');
+                                }
+                            }
+                        };
+                    }
+                };
             })
             .catch((error) => {
-                // Registration failed
                 console.error('[Main] Service Worker registration failed:', error);
             });
+        navigator.serviceWorker.onerror = (error) => {
+             console.error('[Main] Service Worker error:', error);
+        };
     } else {
-        // Service workers are not supported
         console.log('[Main] Service Worker not supported by this browser.');
     }
 }
@@ -73,10 +90,7 @@ function init() {
     events.setupEventListeners(); // Setup event listeners AFTER elements are cached
 
     // Attempt to initialize sounds *after* main setup
-    // Tone.js often requires user interaction to start the AudioContext
     audio.init();
-     // Add interaction listeners again just in case context needs resuming later
-     // These ensure that if the context didn't start immediately, the first click/key press will try again.
      const initAudioOnInteraction = () => {
          audio.init();
          document.removeEventListener('click', initAudioOnInteraction);
@@ -95,7 +109,6 @@ function init() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {
-    // DOMContentLoaded has already fired
     init();
 }
 
