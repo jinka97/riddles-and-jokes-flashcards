@@ -122,8 +122,7 @@ h1 {
 .theme-toggle {
     background-color: var(--warning-color);
     color: var(--warning-text);
-    padding: 8px 12px;
-    font-size: 0.9em;
+    padding: 8px 12px; font-size: 0.9em;
     box-shadow: 0 2px 5px var(--shadow-color);
     border: 1px solid rgba(0,0,0,0.1);
 }
@@ -168,8 +167,8 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 /* Freemium prompt styling */
 .freemium { padding: 15px; background-color: var(--secondary-color); opacity: 0.8; border-radius: 8px; border: 1px solid var(--primary-hover); }
 .freemium p { margin: 0 0 10px 0; font-weight: bold; color: var(--text-color); }
-#freemium-prompt .button-success { background-color: var(--accent-color); }
-#freemium-prompt .button-success:hover { background-color: var(--danger-hover); }
+#open-subscribe-modal-button { background-color: var(--accent-color); }
+#open-subscribe-modal-button:hover { background-color: var(--danger-hover); }
 
 /* --- Game Area Styling --- */
 /* Timer Display */
@@ -185,75 +184,33 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .flashcard.animate-in { animation: fadeIn 0.4s ease-out; }
 
-/* ====================== */
-/* FLASHCARD FIXED STYLES */
-/* ====================== */
-.card-container {
-    perspective: 1000px;
-    width: 100%;
-    min-height: 250px;
-    margin-bottom: 15px;
-}
-
-.flashcard {
-    width: 100%;
-    height: 250px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    border-radius: 15px;
-    border: 4px solid transparent;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-
-.flashcard.is-flipped {
-    transform: rotateY(180deg);
-}
-
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    font-size: 1.5em;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.15);
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-    text-align: center;
-    color: var(--card-text-color);
-    transition: background-color var(--transition-speed) ease;
-}
-
-.card-front {
-    background: var(--card-front-bg);
-    z-index: 2;
-}
-
-.card-back {
-    background: var(--card-back-bg);
-    transform: rotateY(180deg);
-    z-index: 1;
-}
-
-.card-content {
-    width: 100%;
-    max-height: 100%;
-    overflow: auto;
-    padding: 10px;
-}
-
+/* Flashcard container */
+.card-container { perspective: 1500px; min-height: 200px; margin-bottom: 15px; }
+/* The flashcard element itself */
+.flashcard { width: 100%; height: 200px; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color var(--transition-speed) ease; cursor: pointer; border-radius: 15px; border: 4px solid transparent; }
+.flashcard.is-flipped { transform: rotateY(180deg); }
 .flashcard.correct-answer { border-color: var(--success-color); }
 .flashcard.incorrect-answer { border-color: var(--danger-color); }
+
+/* Common styling for card faces */
+.card-face {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    display: grid; place-items: center; /* Use Grid for Centering */
+    padding: 20px; box-sizing: border-box; border-radius: 10px;
+    font-size: 1.5em; box-shadow: inset 0 0 15px rgba(0,0,0,0.15);
+    overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;
+    text-align: center; color: var(--card-text-color);
+    transition: background-color var(--transition-speed) ease;
+    position: relative;
+    /* overflow-y: auto; */ /* REMOVED */
+    pointer-events: auto !important; /* *** ADDED: Explicitly enable pointer events *** */
+}
+.card-face p { margin: 0; }
+
+.card-front { background: var(--card-front-bg); }
+.card-back { background: var(--card-back-bg); transform: rotateY(180deg); }
 
 /* Feedback Icons on Card */
 .feedback-icon { position: absolute; bottom: 10px; right: 15px; font-size: 1.8em; opacity: 0; transform: scale(0.5); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
@@ -296,6 +253,7 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 /* Focus Styles for Keyboard Navigation */
 button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 3px var(--container-bg), 0 0 0 5px var(--focus-ring-color); }
 .card-action-button:focus { box-shadow: 0 0 0 2px var(--container-bg), 0 0 0 4px var(--focus-ring-color); }
+.modal-close-button:focus { box-shadow: 0 0 0 3px var(--modal-content-bg), 0 0 0 5px var(--focus-ring-color); }
 
 /* Media query */
 @media (max-width: 600px) {
@@ -303,10 +261,10 @@ button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 
     h1 { font-size: 1.8em; }
     .selection-area { flex-direction: column; gap: 15px; }
     .selection-area select { max-width: 90%; }
-    .card-container, .flashcard { height: 200px; min-height: 200px; }
     .card-face { font-size: 1.2em; padding: 15px; }
     button { padding: 9px 14px; font-size: 0.9em; }
     .theme-toggle { font-size: 0.8em; padding: 6px 10px; }
+    .card-container, .flashcard { min-height: 180px; height: 180px; }
     .guide-message { flex-direction: column; text-align: center; max-width: 95%; }
     .guide-avatar { margin-right: 0; margin-bottom: 8px; }
     #guide-text-display { font-size: 0.9em; }
@@ -314,4 +272,20 @@ button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 
     .card-actions { gap: 10px; }
     .card-action-button { font-size: 0.8em; padding: 4px 10px;}
     .feedback-icon { font-size: 1.5em; bottom: 5px; right: 10px; }
+    .modal-content { padding: 20px; }
+    #confirm-subscribe-button { width: 90%; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

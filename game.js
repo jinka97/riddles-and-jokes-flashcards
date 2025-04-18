@@ -11,7 +11,7 @@ import { config } from './config.js';
 /* global allFlashcards, events */ // Added events to global hint for handleSubscription fallback
 
 // Private helper function (not exported)
-function shuffleArray(array) {
+function shuffleArray(array) { /* ... (no changes) ... */
     let currentIndex = array.length, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -23,7 +23,7 @@ function shuffleArray(array) {
 }
 
 // Helper function needed locally or imported if moved
-function countCardsForSelection(category, difficulty) {
+function countCardsForSelection(category, difficulty) { /* ... (no changes) ... */
      /* global allFlashcards */ // Use global data
      // Ensure allFlashcards is available
      if (typeof allFlashcards === 'undefined') return 0;
@@ -36,7 +36,7 @@ function countCardsForSelection(category, difficulty) {
 }
 
 
-export function filterDeck() {
+export function filterDeck() { /* ... (no changes) ... */
     console.log(`[Game] Filtering deck. Category: ${state.selectedCategory}, Difficulty: ${state.selectedDifficulty}`);
      // Ensure allFlashcards is available
      if (typeof allFlashcards === 'undefined') {
@@ -50,7 +50,7 @@ export function filterDeck() {
     });
 }
 
-export function startGame(timed = false) {
+export function startGame(timed = false) { /* ... (no changes) ... */
     state.isTimedMode = timed;
     stopTimer(); // Use exported function
 
@@ -101,7 +101,7 @@ export function startGame(timed = false) {
     }
 }
 
-export function nextCard() {
+export function nextCard() { /* ... (no changes) ... */
     console.log(`[Game] nextCard called. Index: ${state.currentCardIndex}`);
     if (state.currentCardIndex < state.shuffledDeck.length - 1) {
         state.currentCardIndex++;
@@ -112,7 +112,7 @@ export function nextCard() {
     }
 }
 
-export function previousCard() {
+export function previousCard() { /* ... (no changes) ... */
     console.log(`[Game] previousCard called. Index: ${state.currentCardIndex}`);
     if (state.currentCardIndex > 0) {
         state.currentCardIndex--;
@@ -120,7 +120,7 @@ export function previousCard() {
     }
 }
 
-export function recordScore(isCorrect) {
+export function recordScore(isCorrect) { /* ... (no changes) ... */
     if (!dom.correctButton || dom.correctButton.disabled) return; // Check element exists and is enabled
     console.log(`[Game] recordScore called. Correct: ${isCorrect}`);
 
@@ -139,10 +139,11 @@ export function recordScore(isCorrect) {
 
 export function flipCard() {
     if (!dom.flashcard) return;
-    // *** ADDED LOG ***
     console.log(`[Game] flipCard called. Card Index: ${state.currentCardIndex}. Current classList: ${dom.flashcard.className}`);
     dom.flashcard.classList.toggle('is-flipped');
-    audio.playSound('flip');
+    // audio.playSound('flip'); // *** TEMPORARILY DISABLED FOR DEBUGGING ***
+    console.log(`[Game] flipCard AFTER toggle. Card Index: ${state.currentCardIndex}. New classList: ${dom.flashcard.className}`); // *** ADDED LOG ***
+
     // Ensure deck and index are valid before accessing cardData
     if (state.shuffledDeck.length === 0 || state.currentCardIndex >= state.shuffledDeck.length) return;
     const cardData = state.shuffledDeck[state.currentCardIndex];
@@ -159,13 +160,10 @@ export function flipCard() {
     } else {
          dom.flashcard.setAttribute('aria-label', `Flashcard front showing question: ${cardData.question}. Press space or enter to flip.`);
          ui.showFeedbackIcon('');
-         // Optional: Disable score buttons when flipping back to front?
-         // if(dom.correctButton) dom.correctButton.disabled = true;
-         // if(dom.incorrectButton) dom.incorrectButton.disabled = true;
     }
 }
 
-export function startTimer() {
+export function startTimer() { /* ... (no changes) ... */
     stopTimer();
     state.timeRemaining = config.TIMER_DURATION;
     ui.toggleElementVisibility(dom.timerDisplay, true);
@@ -182,8 +180,7 @@ export function startTimer() {
     }, 1000);
 }
 
-// This function is already exported by using 'export function'
-export function stopTimer() {
+export function stopTimer() { /* ... (no changes) ... */
     if (state.timerId) {
         clearInterval(state.timerId);
         state.timerId = null;
@@ -192,7 +189,7 @@ export function stopTimer() {
      ui.toggleElementVisibility(dom.timerDisplay, false); // Ensure ui is accessible
 }
 
-export function resetProgress() {
+export function resetProgress() { /* ... (no changes) ... */
     if (state.shuffledDeck.length === 0) return;
     if (confirm("Reset score and reshuffle this selection from the beginning?")) {
         audio.playSound('click');
@@ -224,7 +221,7 @@ export function resetProgress() {
     }
 }
 
-export function shuffleCurrentDeck() {
+export function shuffleCurrentDeck() { /* ... (no changes) ... */
      if (state.selectedCategory && state.shuffledDeck.length > 0) {
         console.log(`[Game] Reshuffling selection: ${state.selectedCategory}, Difficulty: ${state.selectedDifficulty}`);
         startGame(state.isTimedMode); // Restart with same mode
@@ -233,7 +230,7 @@ export function shuffleCurrentDeck() {
     }
 }
 
-export function goBackToSetup() {
+export function goBackToSetup() { /* ... (no changes) ... */
     audio.playSound('click');
     stopTimer();
     state.isTimedMode = false;
@@ -244,7 +241,7 @@ export function goBackToSetup() {
     // if (!state.isMuted && dom.backgroundMusic) dom.backgroundMusic.pause();
 }
 
-export function toggleFavorite() {
+export function toggleFavorite() { /* ... (no changes) ... */
     audio.playSound('click');
     if (state.shuffledDeck.length === 0 || state.currentCardIndex >= state.shuffledDeck.length) return;
     const cardId = state.shuffledDeck[state.currentCardIndex]?.id; // Optional chaining
@@ -255,7 +252,7 @@ export function toggleFavorite() {
     ui.updateFavDiffButtons(cardId);
 }
 
-export function toggleDifficult() {
+export function toggleDifficult() { /* ... (no changes) ... */
     audio.playSound('click');
     if (state.shuffledDeck.length === 0 || state.currentCardIndex >= state.shuffledDeck.length) return;
     const cardId = state.shuffledDeck[state.currentCardIndex]?.id; // Optional chaining
@@ -266,7 +263,7 @@ export function toggleDifficult() {
     ui.updateFavDiffButtons(cardId);
 }
 
- export function handleSubscription() {
+ export function handleSubscription() { /* ... (no changes) ... */
     audio.playSound('click');
     state.isSubscribed = true;
     storage.saveSubscription();
