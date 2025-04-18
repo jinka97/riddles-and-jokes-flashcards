@@ -3,115 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bolt & Chatty Flashcard app - a fun and educational way to learn through riddles and jokes for kids, adults, and language enthusiasts.">
-    <meta name="keywords" content="flashcards, educational, riddles, jokes, kids, adults, language learning, Bolt, Chatty">
-    <meta name="author" content="Your Name">
-    <!-- Open Graph / Twitter Card for social sharing -->
-    <meta property="og:title" content="Bolt & Chatty Flashcards">
-    <meta property="og:description" content="Learn and have fun with Bolt & Chatty through interactive flashcards featuring riddles and jokes!">
-    <meta property="og:image" content="https://jink77.github.io/bolt-chatty-flashcards/assets/bolt-chatty.png">
-    <meta property="og:url" content="https://jink77.github.io/bolt-chatty-flashcards/">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- PWA Manifest and Icons -->
-    <link rel="manifest" href="/bolt-chatty-flashcards/manifest.json">
-    <link rel="icon" href="/bolt-chatty-flashcards/assets/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/bolt-chatty-flashcards/assets/icon-192x192.png">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
-    <!-- Load Config -->
-    <script src="/bolt-chatty-flashcards/config.js"></script>
-    <!-- GA4 Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=" id="gtag-script"></script>
-    <script>
-        document.getElementById('gtag-script').src += config.ga4Id;
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', config.ga4Id);
-    </script>
     <title>Bolt & Chatty Flashcards</title>
-    <link rel="stylesheet" href="/bolt-chatty-flashcards/styles.css">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FF7043"/> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR_GA_MEASUREMENT_ID');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+
 </head>
-<body>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Loading Flashcards...</p>
-    </div>
-    <div class="container">
-        <h1>Bolt & Chatty Flashcards</h1>
-        <div class="theme-toggle">
-            <button onclick="toggleTheme()">Toggle Dark Mode</button>
-        </div>
-        <div class="category-filter">
-            <label for="category">Category:</label>
-            <select id="category" onchange="filterCards()">
-                <option value="all">All</option>
-                <option value="original">Original</option>
-                <option value="math">Math Riddles</option>
-                <option value="general">General Riddles</option>
-                <option value="kids">Riddles for Kids</option>
-                <option value="adults">Riddles for Adults</option>
-                <option value="language">Language Riddles</option>
-                <option value="animals">Animal Riddles</option>
-                <option value="dynamic">Dynamic Riddles (Premium)</option>
-            </select>
-        </div>
-        <div class="guide" id="guide-text">
-            <img id="bolt-image" class="character-image" src="/bolt-chatty-flashcards/assets/bolt.png" alt="Bolt">
-            <img id="chatty-image" class="character-image" src="/bolt-chatty-flashcards/assets/chatty.png" alt="Chatty">
-            <p>Click the card to flip!</p>
-        </div>
-        <div class="flashcard" id="flashcard" tabindex="0">
-            <div class="card-inner">
-                <div class="card-front">
-                    <h2 id="card-question">Question</h2>
+<body class=""> <div class="container">
+        <h1>Bolt & Chatty's Flashcard Fun!</h1>
+
+        <div class="top-controls-wrapper">
+            <button id="theme-toggle-button" class="theme-toggle" aria-label="Toggle light/dark theme">Toggle Theme</button>
+            <div class="selection-area">
+                <div class="category-selector-area">
+                    <label for="category-select">Category:</label>
+                    <select id="category-select" aria-label="Select flashcard category">
+                        <option value="">-- Select --</option>
+                    </select>
                 </div>
-                <div class="card-back">
-                    <h2 id="card-answer">Answer</h2>
+                 <div class="difficulty-selector-area">
+                    <label for="difficulty-select">Difficulty:</label>
+                    <select id="difficulty-select" aria-label="Select difficulty level">
+                        <option value="all">All</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
                 </div>
             </div>
+            <div id="category-info" aria-live="polite"></div>
         </div>
-        <div class="progress-tracker" id="progress-text">Card 1 of 1</div>
-        <div class="score-tracker" id="score-text">
-            Score: 0
-            <button onclick="markCorrect()" aria-label="Mark answer as correct">Correct</button>
-            <button onclick="markIncorrect()" aria-label="Mark answer as incorrect">Incorrect</button>
+
+        <div id="loading-indicator" class="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading Flashcards...</p>
         </div>
-        <div class="navigation">
-            <button onclick="prevCard()">Previous</button>
-            <button onclick="shuffleCards()">Shuffle</button>
-            <button onclick="nextCard()">Next</button>
-            <button onclick="resetProgress()">Reset Progress</button>
-        </div>
-        <!-- Subscription Modal -->
-        <div class="subscription-modal" id="subscription-modal" style="display: none;">
-            <div class="modal-content">
-                <h2>Upgrade to Bolt & Chatty Pro</h2>
-                <p>Unlock all categories, including Dynamic Riddles generated by AI, for just $2.99/month or a one-time payment of $9.99!</p>
-                <button onclick="subscribeMonthly()">Subscribe Monthly ($2.99)</button>
-                <button onclick="subscribeOneTime()">One-Time Payment ($9.99)</button>
-                <button onclick="closeModal()">Close</button>
+
+        <div id="main-content" class="hidden">
+            <div id="setup-area">
+                <div id="timed-mode-controls" class="timed-mode-controls">
+                     <button id="start-timer-button" class="button-warning" aria-label="Start timed challenge for selected category and difficulty">Start Timed Challenge (1 Min)</button>
+                     <p>Or select a category/difficulty above for untimed practice.</p>
+                </div>
+                <div id="freemium-prompt" class="freemium">
+                    <p>Want more? Unlock all categories & dynamic AI riddles!</p>
+                    <button id="open-subscribe-modal-button" class="button-success" aria-label="Open premium subscription details">Go Premium!</button>
+                </div>
             </div>
+
+            <div id="game-area" class="hidden">
+                <div id="timer-display" class="timer-display hidden" aria-live="assertive">Time Left: <span>--</span></div>
+                <div id="guide-message-area" class="guide-message">
+                    <img id="guide-avatar" src="https://placehold.co/40x40/777/FFF?text=B" alt="Guide Avatar" class="guide-avatar">
+                    <p id="guide-text-display">Guide text appears here...</p>
+                </div>
+                <div class="card-container">
+                    <div id="flashcard" class="flashcard" tabindex="0" role="button" aria-label="Flashcard front showing question. Press space or enter to flip.">
+                        <div class="card-face card-front">
+                            <p id="question-text">Loading...</p>
+                            <span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span>
+                        </div>
+                        <div class="card-face card-back">
+                            <p id="answer-text">Answer</p>
+                            <span id="feedback-icon-back" class="feedback-icon" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button id="favorite-button" class="card-action-button" aria-label="Mark as favorite">★ Favorite</button>
+                    <button id="difficult-button" class="card-action-button" aria-label="Mark as difficult">🤔 Mark Difficult</button>
+                </div>
+                <div id="progress-display" class="progress-display" aria-live="polite">Card 0 of 0</div>
+                <div id="score-display" class="score-display" aria-live="polite">Score: 0</div>
+                <div id="score-buttons" class="score-buttons">
+                     <button id="correct-button" class="button-success" disabled aria-label="Mark answer as correct">✔ Correct!</button>
+                     <button id="incorrect-button" class="button-danger" disabled aria-label="Mark answer as incorrect">❌ Incorrect</button>
+                </div>
+                <div id="bottom-controls" class="bottom-controls">
+                    <button id="prev-card-button" disabled aria-label="Go to previous card">Previous</button>
+                    <button id="next-card-button" disabled aria-label="Go to next card">Next</button>
+                    <button id="shuffle-button" aria-label="Shuffle current deck">Shuffle</button>
+                    <button id="reset-progress-button" aria-label="Reset score and start deck over">Reset Progress</button>
+                    <button id="back-to-setup-button" aria-label="Go back to category selection">Change Category/Mode</button>
+                    <button id="mute-button" aria-label="Mute background music">Mute Music</button>
+                    <button id="sfx-mute-button" aria-label="Mute sound effects">Mute SFX</button>
+                </div>
+                 <div id="end-message" class="hidden" aria-live="assertive"></div>
+            </div>
+        </div> <footer class="site-footer">
+            <p>We use Google Analytics to track usage and improve the app. By using this site, you consent to our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+        </footer>
+
+    </div> <audio id="background-music" loop>
+        <source src="assets/background-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="subscription-modal" class="modal-overlay hidden" aria-modal="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <button id="close-modal-button" class="modal-close-button" aria-label="Close subscription modal">&times;</button>
+            <h2 id="modal-title">Go Premium!</h2>
+            <p>Unlock all features with Premium access:</p>
+            <ul>
+                <li>Access to all categories (Adults, Language, etc.)</li>
+                <li>Exclusive "Dynamic AI" category with simulated AI-generated riddles!</li>
+                <li>Support future development!</li>
+            </ul>
+            <div class="subscription-options">
+                <p><strong>Demo Price:</strong> FREE (Just click below!)</p>
+            </div>
+            <button id="confirm-subscribe-button" class="button-success" aria-label="Confirm premium subscription demo">Subscribe Now (Demo)</button>
         </div>
     </div>
-    <footer>
-        <p>© 2025 Bolt & Chatty Flashcards. <a href="/bolt-chatty-flashcards/privacy.html">Privacy Notice</a></p>
-    </footer>
-    <!-- Confetti library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="/bolt-chatty-flashcards/flashcards.js"></script>
-    <script src="/bolt-chatty-flashcards/dynamicContent.js"></script>
-    <script src="/bolt-chatty-flashcards/script.js"></script>
-    <!-- Audio elements -->
-    <audio id="bolt-sound" src="/bolt-chatty-flashcards/assets/bolt-sound.mp3"></audio>
-    <audio id="chatty-sound" src="/bolt-chatty-flashcards/assets/chatty-sound.mp3"></audio>
+    <script src="flashcards.js"></script>
+    <script type="module" src="main.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
-
 
