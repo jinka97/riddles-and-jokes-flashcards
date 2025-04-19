@@ -3,8 +3,6 @@
 import { config } from './config.js';
 
 // Exporting 'let' allows modification from other modules.
-// Be mindful that any module can technically change this state.
-// For larger apps, consider exporting functions to modify state (like a reducer pattern).
 export let state = {
     currentCardIndex: 0,
     shuffledDeck: [],
@@ -20,13 +18,12 @@ export let state = {
     difficultCardIds: new Set(),
     isTimedMode: false,
     timerId: null,
-    timeRemaining: config.TIMER_DURATION,
+    selectedTimerDuration: 60, // Store selected duration (default 60)
+    timeRemaining: 60, // Current countdown value
     currentCardHasBeenFlipped: false,
-    soundsReady: false
+    soundsReady: false,
+    // New Filter States
+    filterFavorites: false,
+    filterDifficult: false
 };
-
-// Optional: Export functions to modify specific parts of the state
-// export function setCurrentCardIndex(index) { state.currentCardIndex = index; }
-// export function setShuffledDeck(deck) { state.shuffledDeck = deck; }
-// etc.
 

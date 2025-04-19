@@ -3,50 +3,54 @@
 import { state } from './state.js';
 import { dom } from './dom.js';
 import { config } from './config.js';
-// Import game functions needed by UI (e.g., for end message logic)
-import { stopTimer } from './game.js'; // Assuming stopTimer is exported from game.js
+// Import game functions needed by UI
+import { stopTimer } from './game.js';
 
-// Make sure allFlashcards is accessible (it's loaded globally before modules)
+// Make sure allFlashcards is accessible
 /* global allFlashcards */
 
 export const ui = {
-    applyTheme: () => {
+    applyTheme: () => { /* ... (no changes) ... */
         if (!dom.bodyElement) return;
         dom.bodyElement.classList.remove('dark-theme');
         if (state.currentTheme === 'dark') {
             dom.bodyElement.classList.add('dark-theme');
         }
     },
-    toggleTheme: () => {
-        // audio.playSound('click'); // Sound handled in event listener
+    toggleTheme: () => { /* ... (no changes) ... */
         state.currentTheme = state.currentTheme === 'light' ? 'dark' : 'light';
         ui.applyTheme();
-        storage.saveTheme(); // Assumes storage is imported/available
+        storage.saveTheme();
     },
     updateScoreDisplay: () => {
-        if(dom.scoreDisplay) dom.scoreDisplay.textContent = `Score: ${state.score.correct}`;
+        // Display score dynamically during timed mode, otherwise just final score
+        let scoreText = `Score: ${state.score.correct}`;
+        // if (state.isTimedMode) { // Decided against showing incorrect during timed mode for simplicity
+        //     scoreText += ` / ${state.score.correct + state.score.incorrect} attempted`;
+        // }
+        if(dom.scoreDisplay) dom.scoreDisplay.textContent = scoreText;
     },
-    updateTimerDisplay: () => {
+    updateTimerDisplay: () => { /* ... (no changes) ... */
         if(dom.timerValueSpan) {
             const minutes = Math.floor(state.timeRemaining / 60);
             const seconds = state.timeRemaining % 60;
             dom.timerValueSpan.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
     },
-    updateProgressDisplay: () => {
+    updateProgressDisplay: () => { /* ... (no changes) ... */
         if(dom.progressDisplay && state.shuffledDeck.length > 0) {
              dom.progressDisplay.textContent = `Card ${state.currentCardIndex + 1} of ${state.shuffledDeck.length}`;
         } else if (dom.progressDisplay) {
              dom.progressDisplay.textContent = 'Card 0 of 0';
         }
     },
-    updateMusicMuteButton: () => {
+    updateMusicMuteButton: () => { /* ... (no changes) ... */
         if(dom.muteButton) {
             dom.muteButton.textContent = state.isMuted ? 'Unmute Music' : 'Mute Music';
             dom.muteButton.classList.toggle('muted', state.isMuted);
         }
     },
-    updateSfxButton: (error = false) => {
+    updateSfxButton: (error = false) => { /* ... (no changes) ... */
          if(dom.sfxMuteButton) {
              if (error || !state.soundsReady) {
                   dom.sfxMuteButton.disabled = true;
@@ -59,7 +63,7 @@ export const ui = {
              }
          }
     },
-    updateFavDiffButtons: (cardId) => {
+    updateFavDiffButtons: (cardId) => { /* ... (no changes) ... */
         if (dom.favoriteButton && dom.difficultButton && cardId) {
              const isFav = state.favoriteCardIds.has(cardId);
              const isDiff = state.difficultCardIds.has(cardId);
@@ -70,7 +74,7 @@ export const ui = {
         }
     },
     updateCardDisplay: () => {
-        console.log(`[UI] updateCardDisplay START. Index: ${state.currentCardIndex}`); // *** DEBUG LOG ***
+        // console.log(`[UI] updateCardDisplay START. Index: ${state.currentCardIndex}`);
         if (!dom.flashcard) { console.error("[UI] Flashcard element not found!"); return; }
 
         dom.flashcard.classList.remove('correct-answer', 'incorrect-answer', 'is-flipped', 'animate-in');
@@ -83,23 +87,34 @@ export const ui = {
             const cardData = state.shuffledDeck[state.currentCardIndex];
             const cardId = cardData?.id;
             if (!cardId) { console.error("[UI] Card data missing ID!", cardData); return; }
-            console.log(`[UI] Rendering Card ID: ${cardId}, Question: ${cardData.question.substring(0,20)}...`); // *** DEBUG LOG ***
+            // console.log(`[UI] Rendering Card ID: ${cardId}, Question: ${cardData.question.substring(0,20)}...`);
 
             // Update Text Content
-            console.log("[UI] Updating text content..."); // *** DEBUG LOG ***
             dom.questionText.textContent = cardData.question;
             dom.answerText.textContent = cardData.answer;
             dom.flashcard.setAttribute('aria-label', `Flashcard front showing question: ${cardData.question}. Press space or enter to flip.`);
 
             // Update Guide
-            console.log("[UI] Updating guide..."); // *** DEBUG LOG ***
             dom.guideTextDisplay.textContent = cardData.guide || '';
             if (cardData.guide?.toLowerCase().startsWith('bolt:')) dom.guideAvatar.src = config.ASSET_PATHS.bolt;
             else if (cardData.guide?.toLowerCase().startsWith('chatty:')) dom.guideAvatar.src = config.ASSET_PATHS.chatty;
             else dom.guideAvatar.src = config.ASSET_PATHS.defaultAvatar;
 
+            // ** Update Difficulty Display **
+            const difficultyElements = document.querySelectorAll('.difficulty-display'); // Get both front and back
+            difficultyElements.forEach(el => {
+                if (cardData.difficulty) {
+                    el.textContent = cardData.difficulty;
+                    el.className = 'difficulty-display'; // Reset classes
+                    el.classList.add(`difficulty-${cardData.difficulty}`); // Add specific class
+                    el.setAttribute('aria-label', `Difficulty: ${cardData.difficulty}`);
+                    ui.toggleElementVisibility(el, true);
+                } else {
+                    ui.toggleElementVisibility(el, false); // Hide if no difficulty set
+                }
+            });
+
             // Update Progress & Buttons
-            console.log("[UI] Updating progress and buttons..."); // *** DEBUG LOG ***
             ui.updateProgressDisplay();
             ui.updateFavDiffButtons(cardId);
 
@@ -117,14 +132,14 @@ export const ui = {
             ui.toggleElementVisibility(dom.cardActionsDiv, true);
             ui.toggleElementVisibility(dom.prevCardButton, true);
             ui.toggleElementVisibility(dom.nextCardButton, true);
-            console.log(`[UI] updateCardDisplay END. Index: ${state.currentCardIndex}`); // *** DEBUG LOG ***
+            // console.log(`[UI] updateCardDisplay END. Index: ${state.currentCardIndex}`);
 
         } else {
             console.error("[UI] Index out of bounds in updateCardDisplay:", state.currentCardIndex);
             ui.showEndMessage();
         }
     },
-    showEndMessage: () => {
+    showEndMessage: () => { /* ... (no changes other than stopTimer import) ... */
         stopTimer(); // Use imported function
         console.log("[UI] showEndMessage called.");
         ui.toggleElementVisibility(dom.guideMessageArea, false);
@@ -154,7 +169,7 @@ export const ui = {
 
         state.isTimedMode = false; // Reset timed mode flag
     },
-    populateCategories: () => {
+    populateCategories: () => { /* ... (no changes) ... */
         if (!dom.categorySelect || typeof allFlashcards === 'undefined') return;
         const categories = [...new Set(allFlashcards.map(item => item.category))];
         dom.categorySelect.innerHTML = '<option value="">-- Select --</option>';
@@ -190,14 +205,14 @@ export const ui = {
             dom.categorySelect.appendChild(option);
         });
     },
-    showFeedbackIcon: (type) => {
+    showFeedbackIcon: (type) => { /* ... (no changes) ... */
          const iconChar = type === 'correct' ? '✔' : type === 'incorrect' ? '❌' : '';
          if(dom.feedbackIcon) dom.feedbackIcon.textContent = iconChar;
          if(dom.feedbackIconBack) dom.feedbackIconBack.textContent = iconChar;
          dom.flashcard?.classList.toggle('show-feedback-correct', type === 'correct');
          dom.flashcard?.classList.toggle('show-feedback-incorrect', type === 'incorrect');
     },
-    toggleElementVisibility: (element, show) => {
+    toggleElementVisibility: (element, show) => { /* ... (no changes) ... */
         if (element) {
             element.classList.toggle('hidden', !show);
         }
@@ -210,27 +225,32 @@ export const ui = {
         if(dom.difficultySelect) dom.difficultySelect.value = "all";
         if(dom.categoryInfoDiv) dom.categoryInfoDiv.textContent = "";
         ui.toggleElementVisibility(dom.timerDisplay, false);
+        // ** Reset filter checkboxes **
+        const favCheckbox = document.getElementById('filter-favorites');
+        const diffCheckbox = document.getElementById('filter-difficult');
+        if (favCheckbox) favCheckbox.checked = false;
+        if (diffCheckbox) diffCheckbox.checked = false;
     },
-    updateSubscriptionUI: () => {
+    updateSubscriptionUI: () => { /* ... (no changes) ... */
          const openSubButton = document.getElementById('open-subscribe-modal-button');
          const freemiumPrompt = document.getElementById('freemium-prompt');
          if (state.isSubscribed) {
-            ui.toggleElementVisibility(freemiumPrompt, false); // Hide prompt if subscribed
+            ui.toggleElementVisibility(freemiumPrompt, false);
         } else if (freemiumPrompt) {
-             ui.toggleElementVisibility(freemiumPrompt, true); // Show if not subscribed
-             if(openSubButton) openSubButton.disabled = false; // Ensure button is enabled
+             ui.toggleElementVisibility(freemiumPrompt, true);
+             if(openSubButton) openSubButton.disabled = false;
         }
-        ui.populateCategories(); // Repopulate categories
+        ui.populateCategories();
     },
-    openSubscriptionModal: () => {
-        const modal = dom.modalOverlay; // Use cached element
+    openSubscriptionModal: () => { /* ... (no changes) ... */
+        const modal = dom.modalOverlay;
         if (modal) {
             ui.toggleElementVisibility(modal, true);
-            modal.querySelector('button')?.focus(); // Focus first button in modal
+            modal.querySelector('button')?.focus();
         }
     },
-    closeSubscriptionModal: () => {
-         const modal = dom.modalOverlay; // Use cached element
+    closeSubscriptionModal: () => { /* ... (no changes) ... */
+         const modal = dom.modalOverlay;
          if (modal) {
             ui.toggleElementVisibility(modal, false);
          }

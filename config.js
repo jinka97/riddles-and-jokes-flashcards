@@ -2,6 +2,7 @@
 
 export const config = {
     TIMER_DURATION: 60, // seconds
+    GA_MEASUREMENT_ID: 'G-P25DGGT6J6', // ADDED - 
     LOCALSTORAGE_KEYS: {
         score: 'riddleScore',
         subscription: 'riddleSubscription',
@@ -30,4 +31,7 @@ export const config = {
         click: "16n"
     }
 };
+
+
+
 

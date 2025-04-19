@@ -5,33 +5,30 @@ import { storage } from './storage.js';
 import { ui } from './ui.js';
 import { audio } from './audio.js';
 import { events } from './events.js';
+import { config } from './config.js'; // *** Import config ***
+
 // state is imported by other modules where needed
 
 // Make sure allFlashcards is loaded from flashcards.js globally before this runs
-/* global allFlashcards */
+/* global allFlashcards, gtag */ // Added gtag to global hint
 
 /**
  * Registers the service worker.
  */
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-        // Use relative path for registration - more robust for GitHub Pages subdirectories
-        navigator.serviceWorker.register('sw.js') // CHANGED FROM '/sw.js'
+        navigator.serviceWorker.register('./sw.js') // Use relative path
             .then((registration) => {
                 console.log('[Main] Service Worker registered successfully with scope:', registration.scope);
-                // Optional: Listen for updates
                 registration.onupdatefound = () => {
                     const installingWorker = registration.installing;
                     if (installingWorker) {
                         installingWorker.onstatechange = () => {
                             if (installingWorker.state === 'installed') {
                                 if (navigator.serviceWorker.controller) {
-                                    // New content is available; please refresh.
-                                    console.log('[Main] New content is available and will be used when all tabs for this page are closed.');
-                                    // Optionally, prompt the user to refresh
+                                    console.log('[Main] New content available; refresh required.');
                                 } else {
-                                    // Content is cached for offline use.
-                                    console.log('[Main] Content is cached for offline use.');
+                                    console.log('[Main] Content cached for offline use.');
                                 }
                             }
                         };
@@ -45,7 +42,7 @@ function registerServiceWorker() {
              console.error('[Main] Service Worker error:', error);
         };
     } else {
-        console.log('[Main] Service Worker not supported by this browser.');
+        console.log('[Main] Service Worker not supported.');
     }
 }
 
@@ -57,23 +54,19 @@ function init() {
     console.log("[Init] Initializing App...");
     // Ensure essential data is loaded first
     if (typeof allFlashcards === 'undefined' || allFlashcards.length === 0) {
-         console.error("Flashcard data is not loaded or empty. Aborting initialization.");
-         const loader = document.getElementById('loading-indicator'); // Direct access before cache
+         console.error("Flashcard data missing. Aborting.");
+         const loader = document.getElementById('loading-indicator');
          if(loader) loader.innerHTML = "<p>Error: Flashcard data missing.</p>";
          return;
     }
-     // Ensure all cards have IDs and difficulty (moved from global scope)
+     // Ensure all cards have IDs and difficulty
      allFlashcards.forEach((card, index) => {
-        if (!card.id) {
-            console.warn(`Card at index ${index} missing ID. Assigning temporary ID.`);
-            card.id = `card-${index}-${Date.now()}`;
-        }
+        if (!card.id) card.id = `card-${index}-${Date.now()}`;
         if (!card.difficulty) card.difficulty = 'medium';
     });
 
-
     if (!cacheDOMElements()) { // Cache DOM elements and check for critical failures
-         console.error("Failed to cache essential DOM elements. Aborting initialization.");
+         console.error("DOM caching failed. Aborting.");
          return;
     }
 
@@ -91,7 +84,7 @@ function init() {
 
     // Attempt to initialize sounds *after* main setup
     audio.init();
-     const initAudioOnInteraction = () => {
+     const initAudioOnInteraction = () => { // Fallback for interaction start
          audio.init();
          document.removeEventListener('click', initAudioOnInteraction);
          document.removeEventListener('keydown', initAudioOnInteraction);
@@ -99,13 +92,26 @@ function init() {
      document.addEventListener('click', initAudioOnInteraction, { once: true });
      document.addEventListener('keydown', initAudioOnInteraction, { once: true });
 
-    // Register the service worker for PWA functionality
-    registerServiceWorker();
+    registerServiceWorker(); // Register SW
+
+    // *** Configure Google Analytics using ID from config.js ***
+    if (config.GA_MEASUREMENT_ID && config.GA_MEASUREMENT_ID !== 'YOUR_GA_MEASUREMENT_ID') {
+         // Check if gtag function exists (loaded by the script in index.html)
+         if (typeof gtag === 'function') {
+             console.log(`[Init] Configuring GA with ID: ${config.GA_MEASUREMENT_ID}`);
+             gtag('config', config.GA_MEASUREMENT_ID);
+         } else {
+              console.warn("[Init] gtag function not found. GA might not be loaded correctly.");
+         }
+    } else {
+         console.warn("[Init] GA Measurement ID not configured in config.js or still placeholder.");
+    }
+    // *** End GA Configuration ***
 
     console.log("[Init] Initialization Complete.");
 }
 
-// Wait for DOM content to load, then initialize
+// Initialize after DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {

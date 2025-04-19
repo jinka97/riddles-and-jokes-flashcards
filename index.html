@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bolt & Chatty Flashcards</title>
-
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#FF7043"/> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P25DGGT6J6"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FF7043"/>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_MEASUREMENT_ID"></script>
     <script>
+      // Initialize dataLayer
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-P25DGGT6J6');
+      // *** Config call removed - happens in main.js ***
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
 
@@ -43,6 +45,10 @@
                     </select>
                 </div>
             </div>
+            <div class="filter-options">
+                 <label><input type="checkbox" id="filter-favorites"> Review Favorites Only (★)</label>
+                 <label><input type="checkbox" id="filter-difficult"> Review Difficult Only (🤔)</label>
+            </div>
             <div id="category-info" aria-live="polite"></div>
         </div>
 
@@ -53,11 +59,18 @@
 
         <div id="main-content" class="hidden">
             <div id="setup-area">
-                <div id="timed-mode-controls" class="timed-mode-controls">
-                     <button id="start-timer-button" class="button-warning" aria-label="Start timed challenge for selected category and difficulty">Start Timed Challenge (1 Min)</button>
-                     <p>Or select a category/difficulty above for untimed practice.</p>
+                 <div id="timed-mode-controls" class="timed-mode-controls">
+                     <label for="timer-duration-select">Timed Challenge:</label>
+                     <select id="timer-duration-select" aria-label="Select timed challenge duration">
+                         <option value="30">30 Seconds</option>
+                         <option value="60" selected>60 Seconds</option>
+                         <option value="90">90 Seconds</option>
+                         <option value="120">2 Minutes</option>
+                     </select>
+                     <button id="start-timer-button" class="button-warning" aria-label="Start timed challenge for selected category and difficulty">Start Timed Round</button>
+                     <p>Or select category/difficulty above for untimed practice.</p>
                 </div>
-                <div id="freemium-prompt" class="freemium">
+                 <div id="freemium-prompt" class="freemium">
                     <p>Want more? Unlock all categories & dynamic AI riddles!</p>
                     <button id="open-subscribe-modal-button" class="button-success" aria-label="Open premium subscription details">Go Premium!</button>
                 </div>
@@ -72,10 +85,12 @@
                 <div class="card-container">
                     <div id="flashcard" class="flashcard" tabindex="0" role="button" aria-label="Flashcard front showing question. Press space or enter to flip.">
                         <div class="card-face card-front">
+                            <span class="difficulty-display" aria-label="Card difficulty"></span>
                             <p id="question-text">Loading...</p>
                             <span id="feedback-icon" class="feedback-icon" aria-hidden="true"></span>
                         </div>
                         <div class="card-face card-back">
+                            <span class="difficulty-display" aria-label="Card difficulty"></span>
                             <p id="answer-text">Answer</p>
                             <span id="feedback-icon-back" class="feedback-icon" aria-hidden="true"></span>
                         </div>
@@ -103,7 +118,7 @@
                  <div id="end-message" class="hidden" aria-live="assertive"></div>
             </div>
         </div> <footer class="site-footer">
-            <p>We use Google Analytics to track usage and improve the app. By using this site, you consent to our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+            <p>We use Google Analytics to track usage. By using this site, you consent to our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
         </footer>
 
     </div> <audio id="background-music" loop>
@@ -112,7 +127,7 @@
     </audio>
 
     <div id="subscription-modal" class="modal-overlay hidden" aria-modal="true" role="dialog" aria-labelledby="modal-title">
-        <div class="modal-content">
+         <div class="modal-content">
             <button id="close-modal-button" class="modal-close-button" aria-label="Close subscription modal">&times;</button>
             <h2 id="modal-title">Go Premium!</h2>
             <p>Unlock all features with Premium access:</p>
