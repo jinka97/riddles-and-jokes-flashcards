@@ -248,5 +248,33 @@ const allFlashcards = [
     { id: "an14", question: "Bolt: What do you call a rabbit who tells jokes?", answer: "A funny bunny", guide: "Bolt: Let's hop into a rabbit joke! Click the card to flip.", category: "animals", premium: false, difficulty: "easy" },
     { id: "an15", question: "Bolt: What is a rabbit's favorite dance?", answer: "The Bunny Hop", guide: "Bolt: Let's dance with this rabbit joke! Click the card to flip.", category: "animals", premium: false, difficulty: "easy" },
     { id: "an16", question: "Bolt: What kind of jewelry do rabbits wear?", answer: "14 carrot gold", guide: "Bolt: Here's a shiny rabbit joke! Click the card to flip.", category: "animals", premium: false, difficulty: "easy" },
+    
+    
+    { id: "an18", question: "Bolt: What do you call a rabbit with fleas?", answer: "Bugs Bunny", guide: "Bolt: Let's laugh with a bunny joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an19", question: "Bolt: What is the difference between a cat that got photocopied and a cat that follows you?", answer: "One is a cat copy; the other is a copy cat", guide: "Bolt: Let's purr with this cat joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an20", question: "Bolt: What cat likes living in water?", answer: "An octo-puss", guide: "Bolt: Here's a splashy cat joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an21", question: "Bolt: What do you call a cat's favorite magazine?", answer: "A cat-alogue", guide: "Bolt: Let's read with this cat joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an22", question: "Bolt: Why didn't the skeleton go to school?", answer: "His heart wasn't in it", guide: "Bolt: Here's a spooky joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an23", question: "Bolt: What kind of dog does Dracula have?", answer: "A bloodhound", guide: "Bolt: Let's bark with this vampire joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an24", question: "Bolt: What fruit do scarecrows love the most?", answer: "Straw-berries", guide: "Bolt: Here's a fruity scarecrow joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an25", question: "Bolt: What kind of music do mummies love?", answer: "Wrap music", guide: "Bolt: Let's groove with this mummy joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an26", question: "Bolt: What monster plays tricks on Halloween?", answer: "Prank-enstein", guide: "Bolt: Here's a tricky monster joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an27", question: "Bolt: What do you get when you cross a ball and a cat?", answer: "A fur ball", guide: "Bolt: Let's roll with this cat joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an28", question: "Bolt: Why can't Elsa from Frozen have a balloon?", answer: "Because she will 'let it go, let it go'", guide: "Bolt: Here's a chilly joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an29", question: "Bolt: What is a monster's favorite dessert?", answer: "I scream", guide: "Bolt: Let's scream with this monster joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an30", question: "Bolt: What does a witch use to do her hair?", answer: "Scarespray", guide: "Bolt: Here's a witchy joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an31", question: "Bolt: What room does a ghost not need?", answer: "A living room", guide: "Bolt: Let's haunt with this ghost joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an32", question: "Bolt: How does a vampire start a letter?", answer: "Tomb it may concern...", guide: "Bolt: Here's a fang-tastic joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an33", question: "Bolt: Which bear is the most condescending?", answer: "A pan-duh!", guide: "Bolt: Let's laugh with this bear joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an34", question: "Bolt: Why did the teacher have a sack full of birdseed?", answer: "For her parrot-teacher conferences", guide: "Bolt: Let's laugh with this school joke! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an35", question: "Bolt: What has four legs and one arm?", answer: "A pitbull coming back from the park!", guide: "Bolt: Let's fetch with this dog riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an36", question: "Bolt: I have branches, but no fruit, trunk, or leaves. What am I?", answer: "A bank", guide: "Bolt: Let's branch out with this riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an37", question: "Bolt: What can't talk but will reply when spoken to?", answer: "An echo", guide: "Bolt: Let's echo with this riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an38", question: "Bolt: What has many keys but can't open a single lock?", answer: "A piano", guide: "Bolt: Let's play with this riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an39", question: "Bolt: What can you hold in your left hand but not in your right?", answer: "Your right elbow", guide: "Bolt: Let's twist with this riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an40", question: "Bolt: What is black when it's clean and white when it's dirty?", answer: "A chalkboard", guide: "Bolt: Let's draw with this riddle! Click the card to flip.", category: "animals", premium: false, difficulty: 'medium' },
+    { id: "an41", question: "Bolt: What animal barks?", answer: "Dog", guide: "Bolt: Let's learn about animals! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' },
+    { id: "an42", question: "Bolt: What animal says 'meow'?", answer: "Cat", guide: "Bolt: Let's learn about animals! Click the card to flip.", category: "animals", premium: false, difficulty: 'easy' }
+    
 ];
 
