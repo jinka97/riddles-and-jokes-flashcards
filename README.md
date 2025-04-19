@@ -1,6 +1,6 @@
 # Bolty and Chatty's Flashcard Fun
   
-A fun, AI-themed flashcard app for kids and learners, powered by Bolty and Chatty! Dive into engaging quizzes, learn about AI, and create your own decks with ease.
+A fun, AI-themed, riddles and jokes flashcard app for kids and learners, powered by Bolty and Chatty! Dive into engaging quizzes, learn about AI, and create your own decks with ease.
 
 🚀 Features
 
