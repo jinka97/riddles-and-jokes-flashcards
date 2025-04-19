@@ -184,53 +184,65 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .flashcard.animate-in { animation: fadeIn 0.4s ease-out; }
 
-/* Flashcard container */
+/* Flashcard container - Using structure from user-provided CSS */
 .card-container {
-    perspective: 1500px;
-    /* min-height: 200px; */ /* REMOVED min-height */
-    margin: 0 auto 15px auto; /* Center container and control bottom margin */
-    width: 100%; /* Ensure it takes available width */
-    max-width: 95%; /* Limit max width slightly if needed */
+    perspective: 1000px; /* Keep perspective */
+    width: 100%;
+    min-height: 250px; /* Restore min-height from user CSS */
+    margin-bottom: 15px;
 }
-/* The flashcard element itself */
+
+/* The flashcard element itself - Using structure from user-provided CSS */
 .flashcard {
     width: 100%;
-    height: 200px; /* Keep fixed height */
+    height: 250px; /* Match min-height */
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color var(--transition-speed) ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* User CSS transition */
     cursor: pointer;
-    border-radius: 15px;
-    border: 4px solid transparent;
-    margin: 0 auto; /* Ensure flashcard itself is centered if container is wider */
+    border-radius: 15px; /* Keep rounded corners */
+    border: 4px solid transparent; /* Keep border for feedback */
+    /* backface-visibility: hidden; */ /* Moved to .card-face */
 }
 .flashcard.is-flipped { transform: rotateY(180deg); }
 .flashcard.correct-answer { border-color: var(--success-color); }
 .flashcard.incorrect-answer { border-color: var(--danger-color); }
 
-/* Common styling for card faces */
+/* Common styling for card faces - Using structure from user-provided CSS + fixes */
 .card-face {
     position: absolute; width: 100%; height: 100%;
-    backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-    display: grid; /* Keep Grid for centering */
-    place-items: center; /* Vertical and horizontal centering */
+    /* Fixes merged in */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0); /* Optional: Might help rendering */
+    pointer-events: auto !important; /* Ensure clickable */
+    /* Layout from user CSS (Flexbox) */
+    display: flex;
+    flex-direction: column; /* Added back for vertical centering if needed */
+    justify-content: center;
+    align-items: center;
+    /* Other styles */
     padding: 20px; box-sizing: border-box; border-radius: 10px;
     font-size: 1.5em; box-shadow: inset 0 0 15px rgba(0,0,0,0.15);
     overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;
     text-align: center; color: var(--card-text-color);
     transition: background-color var(--transition-speed) ease;
-    position: relative;
-    /* overflow-y: auto; */ /* REMOVED overflow */
-    pointer-events: auto !important;
+    /* overflow-y: auto; */ /* REMOVED - Prioritize centering/positioning */
 }
 .card-face p { margin: 0; } /* Keep margin reset */
 
-.card-front { background: var(--card-front-bg); }
-.card-back { background: var(--card-back-bg); transform: rotateY(180deg); }
+.card-front {
+    background: var(--card-front-bg);
+    z-index: 2; /* Ensure front is initially on top */
+}
+.card-back {
+    background: var(--card-back-bg);
+    transform: rotateY(180deg);
+    z-index: 1; /* Ensure back is behind initially */
+}
 
 /* Feedback Icons on Card */
-.feedback-icon { position: absolute; bottom: 10px; right: 15px; font-size: 1.8em; opacity: 0; transform: scale(0.5); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; }
+.feedback-icon { position: absolute; bottom: 10px; right: 15px; font-size: 1.8em; opacity: 0; transform: scale(0.5); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none; z-index: 3; /* Ensure icon is above face content */ }
 .flashcard.correct-answer .feedback-icon,
 .flashcard.incorrect-answer .feedback-icon { opacity: 1; transform: scale(1); color: white; }
 
@@ -292,10 +304,10 @@ button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 
     h1 { font-size: 1.8em; }
     .selection-area { flex-direction: column; gap: 15px; }
     .selection-area select { max-width: 90%; }
+    .card-container, .flashcard { height: 200px; min-height: 200px; } /* Revert mobile height */
     .card-face { font-size: 1.2em; padding: 15px; }
     button { padding: 9px 14px; font-size: 0.9em; }
     .theme-toggle { font-size: 0.8em; padding: 6px 10px; }
-    .card-container, .flashcard { min-height: 180px; height: 180px; } /* Adjust height for mobile */
     .guide-message { flex-direction: column; text-align: center; max-width: 95%; }
     .guide-avatar { margin-right: 0; margin-bottom: 8px; }
     #guide-text-display { font-size: 0.9em; }
