@@ -185,9 +185,25 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 .flashcard.animate-in { animation: fadeIn 0.4s ease-out; }
 
 /* Flashcard container */
-.card-container { perspective: 1500px; min-height: 200px; margin-bottom: 15px; }
+.card-container {
+    perspective: 1500px;
+    /* min-height: 200px; */ /* REMOVED min-height */
+    margin: 0 auto 15px auto; /* Center container and control bottom margin */
+    width: 100%; /* Ensure it takes available width */
+    max-width: 95%; /* Limit max width slightly if needed */
+}
 /* The flashcard element itself */
-.flashcard { width: 100%; height: 200px; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color var(--transition-speed) ease; cursor: pointer; border-radius: 15px; border: 4px solid transparent; }
+.flashcard {
+    width: 100%;
+    height: 200px; /* Keep fixed height */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color var(--transition-speed) ease;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 4px solid transparent;
+    margin: 0 auto; /* Ensure flashcard itself is centered if container is wider */
+}
 .flashcard.is-flipped { transform: rotateY(180deg); }
 .flashcard.correct-answer { border-color: var(--success-color); }
 .flashcard.incorrect-answer { border-color: var(--danger-color); }
@@ -197,17 +213,18 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
     position: absolute; width: 100%; height: 100%;
     backface-visibility: hidden; -webkit-backface-visibility: hidden;
     transform: translateZ(0);
-    display: grid; place-items: center; /* Use Grid for Centering */
+    display: grid; /* Keep Grid for centering */
+    place-items: center; /* Vertical and horizontal centering */
     padding: 20px; box-sizing: border-box; border-radius: 10px;
     font-size: 1.5em; box-shadow: inset 0 0 15px rgba(0,0,0,0.15);
     overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;
     text-align: center; color: var(--card-text-color);
     transition: background-color var(--transition-speed) ease;
     position: relative;
-    /* overflow-y: auto; */ /* REMOVED */
-    pointer-events: auto !important; /* *** ADDED: Explicitly enable pointer events *** */
+    /* overflow-y: auto; */ /* REMOVED overflow */
+    pointer-events: auto !important;
 }
-.card-face p { margin: 0; }
+.card-face p { margin: 0; } /* Keep margin reset */
 
 .card-front { background: var(--card-front-bg); }
 .card-back { background: var(--card-back-bg); transform: rotateY(180deg); }
@@ -247,10 +264,24 @@ button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed
 .site-footer a { color: var(--primary-color); text-decoration: none; font-weight: 700; }
 .site-footer a:hover { text-decoration: underline; }
 
+/* --- Modal Styles --- */
+.modal-overlay { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: var(--modal-overlay-bg); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+.modal-overlay.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+.modal-content { background-color: var(--modal-content-bg); color: var(--modal-text-color); padding: 30px 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); width: 90%; max-width: 500px; position: relative; transform: scale(0.9); transition: transform 0.3s ease; }
+.modal-overlay.visible .modal-content { transform: scale(1); }
+.modal-content h2 { margin-top: 0; color: var(--primary-color); }
+.modal-content ul { text-align: left; margin-bottom: 20px; padding-left: 20px; }
+.modal-content li { margin-bottom: 8px; }
+.modal-close-button { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 2em; font-weight: bold; color: var(--text-color); opacity: 0.7; cursor: pointer; padding: 0; line-height: 1; box-shadow: none; }
+.modal-close-button:hover { opacity: 1; }
+.subscription-options { margin: 20px 0; padding: 15px; background-color: rgba(0,0,0,0.05); border-radius: 5px; }
+body.dark-theme .subscription-options { background-color: rgba(255,255,255,0.08); }
+#confirm-subscribe-button { width: 80%; padding: 12px 20px; font-size: 1.1em; }
+
 /* Utility class */
 .hidden { display: none !important; }
 
-/* Focus Styles for Keyboard Navigation */
+/* Focus Styles */
 button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 3px var(--container-bg), 0 0 0 5px var(--focus-ring-color); }
 .card-action-button:focus { box-shadow: 0 0 0 2px var(--container-bg), 0 0 0 4px var(--focus-ring-color); }
 .modal-close-button:focus { box-shadow: 0 0 0 3px var(--modal-content-bg), 0 0 0 5px var(--focus-ring-color); }
@@ -264,7 +295,7 @@ button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 
     .card-face { font-size: 1.2em; padding: 15px; }
     button { padding: 9px 14px; font-size: 0.9em; }
     .theme-toggle { font-size: 0.8em; padding: 6px 10px; }
-    .card-container, .flashcard { min-height: 180px; height: 180px; }
+    .card-container, .flashcard { min-height: 180px; height: 180px; } /* Adjust height for mobile */
     .guide-message { flex-direction: column; text-align: center; max-width: 95%; }
     .guide-avatar { margin-right: 0; margin-bottom: 8px; }
     #guide-text-display { font-size: 0.9em; }
@@ -275,17 +306,4 @@ button:focus, select:focus, #flashcard:focus { outline: none; box-shadow: 0 0 0 
     .modal-content { padding: 20px; }
     #confirm-subscribe-button { width: 90%; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
