@@ -1,93 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Privacy Policy - Bolty & Chatty</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      line-height: 1.6;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: #f9fafb;
-      color: #111;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-size: 1.2rem;
-      margin-top: 2rem;
-    }
-    a {
-      color: #3b82f6;
-    }
-    ul {
-      padding-left: 1.25rem;
-    }
-    .back-link {
-      margin-top: 2rem;
-      display: block;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>Privacy Policy</h1>
-  <p><strong>Last updated:</strong> April 21, 2025</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy</title>
+    <link rel="icon" href="/riddles-and-jokes-flashcards/icon-192.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  </head>
+  <body class="bg-white text-gray-800 dark:bg-zinc-900 dark:text-white p-6">
+    <div class="max-w-3xl mx-auto">
+      <a href="/riddles-and-jokes-flashcards/" class="inline-block mb-6 text-blue-600 underline hover:text-blue-800">← Back to Flashcards</a>
 
-  <h2>Introduction</h2>
-  <p>
-    Welcome to Bolty & Chatty Flashcard Fun. We are committed to protecting your privacy. 
-    This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.
-  </p>
+      <h1 class="text-3xl font-bold mb-4">Privacy Policy</h1>
+      <p class="text-sm text-gray-500 mb-6">Last updated: <span id="lastUpdated"></span></p>
 
-  <h2>Google Analytics</h2>
-  <p>
-    We use Google Analytics to collect anonymous usage data, such as page views and interactions, 
-    to improve our app. This may include IP address, device type, and browser data.
-  </p>
-  <p>
-    Google Analytics uses cookies to gather data anonymously. This data is not personally identifiable and 
-    is only used to analyze traffic and improve our content.
-  </p>
-  <p>
-    Read more at <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a> or
-    <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">opt out here</a>.
-  </p>
+      <section class="space-y-4">
+        <p>Welcome to Bolty & Chatty's Flashcard Fun. We respect your privacy and want to help you understand how we collect and use information.</p>
 
-  <h2>Locally Stored Data</h2>
-  <p>
-    We store game preferences and scores in your browser using localStorage. This includes:
-  </p>
-  <ul>
-    <li>Your score (correct/incorrect)</li>
-    <li>Muted sound preferences</li>
-    <li>Selected categories and decks</li>
-  </ul>
-  <p>This data stays in your browser and is not sent to us or any third party.</p>
+        <h2 class="text-xl font-semibold">Google Analytics</h2>
+        <p>We use Google Analytics to gather anonymous usage data such as device, browser, and page views. No personally identifiable info is collected.</p>
 
-  <h2>Children’s Privacy</h2>
-  <p>
-    We do not knowingly collect information from children under the age of 13. If you believe we have unintentionally collected such data, 
-    please contact us.
-  </p>
+        <h2 class="text-xl font-semibold">Local Storage</h2>
+        <p>Your preferences and scores are stored locally in your browser using `localStorage`. This data is never sent to a server.</p>
 
-  <h2>Changes</h2>
-  <p>
-    We may update this policy periodically. Please check this page regularly for updates.
-  </p>
+        <h2 class="text-xl font-semibold">Cookies</h2>
+        <p>We use cookies only to remember your consent preferences and enable analytics (if accepted).</p>
 
-  <h2>Contact</h2>
-  <p>
-    For questions or concerns, reach us at: 
-    <a href="mailto:support@boltychattyflashcards.com">support@boltychattyflashcards.com</a>
-  </p>
+        <h2 class="text-xl font-semibold">Security</h2>
+        <p>We don’t store sensitive data or use any third-party advertising networks.</p>
 
-  <a class="back-link" href="/">← Back to Flashcards</a>
-</body>
+        <h2 class="text-xl font-semibold">For Children</h2>
+        <p>This app is designed to be safe and does not knowingly collect information from users under age 13.</p>
+
+        <h2 class="text-xl font-semibold">Contact</h2>
+        <p>Questions? Email us at <a href="mailto:support@flashcardfun.dev" class="underline text-blue-500">support@flashcardfun.dev</a>.</p>
+      </section>
+
+      <footer class="mt-12 text-sm text-gray-500">
+        Bolty & Chatty’s Flashcard Fun © <span id="year"></span>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("lastUpdated").textContent = new Date().toLocaleDateString();
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
 
